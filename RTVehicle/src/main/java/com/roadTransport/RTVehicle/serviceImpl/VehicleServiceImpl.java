@@ -15,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
+import java.util.Base64;
 import java.util.Calendar;
 
 @Service
@@ -121,12 +122,9 @@ public class VehicleServiceImpl implements VehicleService {
         VehicleDetails vehicleDetails = vehicleRepository.findByNumber(vehicleRequest.getVehicleNumber());
 
         vehicleDetails.setDriverName(vehicleRequest.getDriverName());
-        vehicleDetails.setInsuranceImage(vehicleRequest.getInsuranceImage());
         vehicleDetails.setOwnerName(vehicleRequest.getOwnerName());
-        vehicleDetails.setRcImage(vehicleRequest.getRcImage());
         vehicleDetails.setVehicleCompanyName(vehicleRequest.getVehicleCompanyName());
         vehicleDetails.setVehicleFuelType(vehicleRequest.getVehicleFuelType());
-        vehicleDetails.setVehicleImage(vehicleRequest.getVehicleImage());
         vehicleDetails.setVehicleInsuranceNumber(vehicleRequest.getVehicleInsuranceNumber());
         vehicleDetails.setVehicleLoadCapacity(vehicleRequest.getVehicleLoadCapacity());
         vehicleDetails.setVehicleModel(vehicleRequest.getVehicleModel());
@@ -151,7 +149,7 @@ public class VehicleServiceImpl implements VehicleService {
     public VehicleDetails updateRcImage(VehicleRequest vehicleRequest) {
 
         VehicleDetails vehicleDetails = vehicleRepository.findByNumber(vehicleRequest.getVehicleNumber());
-        vehicleDetails.setRcImage(vehicleRequest.getRcImage());
+        vehicleDetails.setRcImage(Base64.getEncoder().encodeToString(vehicleRequest.getRcImage().getBytes()));
 
         vehicleRepository.saveAndFlush(vehicleDetails);
         return vehicleDetails;
@@ -161,7 +159,7 @@ public class VehicleServiceImpl implements VehicleService {
     public VehicleDetails updateVehicleInsurance(VehicleRequest vehicleRequest) {
 
         VehicleDetails vehicleDetails = vehicleRepository.findByNumber(vehicleRequest.getVehicleNumber());
-        vehicleDetails.setInsuranceImage(vehicleRequest.getInsuranceImage());
+        vehicleDetails.setInsuranceImage(Base64.getEncoder().encodeToString(vehicleRequest.getInsuranceImage().getBytes()));
 
         vehicleRepository.saveAndFlush(vehicleDetails);
         return vehicleDetails;

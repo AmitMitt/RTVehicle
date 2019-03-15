@@ -15,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
+import java.util.Base64;
 import java.util.Calendar;
 
 @Service
@@ -48,12 +49,12 @@ public class VehicleTemporaryServiceImpl implements VehicleTemporaryService {
 
             VehicleTemporayDetails vehicleDetails1 = new VehicleTemporayDetails();
             vehicleDetails1.setDriverName(vehicleRequest.getDriverName());
-            vehicleDetails1.setInsuranceImage(vehicleRequest.getInsuranceImage());
+            vehicleDetails1.setInsuranceImage(Base64.getEncoder().encodeToString(vehicleRequest.getInsuranceImage().getBytes()));
             vehicleDetails1.setOwnerName(vehicleRequest.getOwnerName());
-            vehicleDetails1.setRcImage(vehicleRequest.getRcImage());
+            vehicleDetails1.setRcImage(Base64.getEncoder().encodeToString(vehicleRequest.getRcImage().getBytes()));
             vehicleDetails1.setVehicleCompanyName(vehicleRequest.getVehicleCompanyName());
             vehicleDetails1.setVehicleFuelType(vehicleRequest.getVehicleFuelType());
-            vehicleDetails1.setVehicleImage(vehicleRequest.getVehicleImage());
+            vehicleDetails1.setVehicleImage(Base64.getEncoder().encodeToString(vehicleRequest.getVehicleImage().getBytes()));
             vehicleDetails1.setVehicleInsuranceNumber(vehicleRequest.getVehicleInsuranceNumber());
             vehicleDetails1.setVehicleLoadCapacity(vehicleRequest.getVehicleLoadCapacity());
             vehicleDetails1.setVehicleModel(vehicleRequest.getVehicleModel());
@@ -79,12 +80,12 @@ public class VehicleTemporaryServiceImpl implements VehicleTemporaryService {
         else{
 
             vehicleDetails.setDriverName(vehicleRequest.getDriverName());
-            vehicleDetails.setInsuranceImage(vehicleRequest.getInsuranceImage());
+            vehicleDetails.setInsuranceImage(Base64.getEncoder().encodeToString(vehicleRequest.getInsuranceImage().getBytes()));
             vehicleDetails.setOwnerName(vehicleRequest.getOwnerName());
-            vehicleDetails.setRcImage(vehicleRequest.getRcImage());
+            vehicleDetails.setRcImage(Base64.getEncoder().encodeToString(vehicleRequest.getRcImage().getBytes()));
             vehicleDetails.setVehicleCompanyName(vehicleRequest.getVehicleCompanyName());
             vehicleDetails.setVehicleFuelType(vehicleRequest.getVehicleFuelType());
-            vehicleDetails.setVehicleImage(vehicleRequest.getVehicleImage());
+            vehicleDetails.setVehicleImage(Base64.getEncoder().encodeToString(vehicleRequest.getVehicleImage().getBytes()));
             vehicleDetails.setVehicleInsuranceNumber(vehicleRequest.getVehicleInsuranceNumber());
             vehicleDetails.setVehicleLoadCapacity(vehicleRequest.getVehicleLoadCapacity());
             vehicleDetails.setVehicleModel(vehicleRequest.getVehicleModel());

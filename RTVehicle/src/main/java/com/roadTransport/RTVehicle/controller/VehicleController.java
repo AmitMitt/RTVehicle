@@ -1,5 +1,6 @@
 package com.roadTransport.RTVehicle.controller;
 
+import com.roadTransport.RTVehicle.entity.DeletedVehicleData;
 import com.roadTransport.RTVehicle.entity.VehicleDetails;
 import com.roadTransport.RTVehicle.model.OtpRequest;
 import com.roadTransport.RTVehicle.model.VehicleRequest;
@@ -59,16 +60,27 @@ public class VehicleController {
         return ResponseEntity.ok(vehicleResponse);
     }
 
-    @CacheEvict(value = "VehicleDetails", allEntries=true)
+
     @DeleteMapping("/delete")
     public ResponseEntity<VehicleResponse> delete(@RequestBody VehicleRequest vehicleRequest) throws Exception {
 
-        vehicleService.delete(vehicleRequest.getVehicleNumber());
+        DeletedVehicleData deletedVehicleData = vehicleService.delete(vehicleRequest.getVehicleNumber());
         VehicleResponse vehicleResponse = new VehicleResponse();
-        vehicleResponse.setMessage("Successfully Deleted.");
+        vehicleResponse.setMessage("Enter the Otp.");
+        vehicleResponse.setOtp(deletedVehicleData.getOtp());
         return ResponseEntity.ok(vehicleResponse);
     }
 
+    @CacheEvict(value = "VehicleDetails", allEntries=true)
+    @PostMapping("/verifyDeletionOtp")
+    public ResponseEntity<VehicleResponse> verifyDeletion(@RequestBody OtpRequest otpRequest) throws Exception {
+
+        vehicleService.deleteByOtp(otpRequest);
+        VehicleResponse vehicleResponse = new VehicleResponse();
+        vehicleResponse.setMessage("Successfully Deleted.");
+        vehicleResponse.setOtp(otpRequest.getOtp());
+        return ResponseEntity.ok(vehicleResponse);
+    }
     @CachePut(value = "VehicleDetails", key = "#vehicleNumber")
     @PutMapping("/updateRcImage")
     public ResponseEntity<VehicleResponse> updateRcImage(@RequestBody VehicleRequest vehicleRequest){

@@ -1,52 +1,42 @@
 package com.roadTransport.RTVehicle.entity;
 
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 
-@Table
 @Entity
-public class VehicleDetails implements Serializable {
+@Table
+public class DeletedVehicleData {
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column
     private long id;
 
-    @NotNull
     @Column
     private String vehicleType;
 
-    @NotNull
-    @Column(unique = true)
+    @Column
     private String vehicleNumber;
 
-    @NotNull
     @Column
     private String ownerName;
 
-    @NotNull
-    @Column(length = 10)
+    @Column
     private long ownerMobileNumber;
 
-    @NotNull
     @Column
     private String vehicleRcNumber;
 
-    @NotNull
     @Column
     private String vehicleInsuranceNumber;
 
-    @NotNull
     @Column
     private String vehicleTotalTyres;
 
-    @NotNull
     @Column
     private String vehicleName;
 
-    @NotNull
     @Column
     private String vehicleCompanyName;
 
@@ -60,34 +50,26 @@ public class VehicleDetails implements Serializable {
     private String insuranceImage;
 
     @Column
-    @NotNull
     private String driverName;
 
-    @NotNull
     @Column
     private long vehicleSeatingCapacity;
 
-    @NotNull
     @Column
     private String vehicleSize;
 
-    @NotNull
     @Column
     private String vehicleLoadCapacity;
 
-    @NotNull
     @Column
     private String vehicleFuelType;
 
-    @NotNull
     @Column
     private long vehicleModel;
 
-    @NotNull
     @Column
     private String vehicleTransportName;
 
-    @NotNull
     @Column
     private String vehicleTransportNumber;
 
@@ -98,30 +80,14 @@ public class VehicleDetails implements Serializable {
     private String createdDate;
 
     @Column
-    private String modifedDate;
+    private long otp;
 
-    public String getCreatedDate() {
-        return createdDate;
+    public long getOtp() {
+        return otp;
     }
 
-    public void setCreatedDate(String createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public String getModifedDate() {
-        return modifedDate;
-    }
-
-    public void setModifedDate(String modifedDate) {
-        this.modifedDate = modifedDate;
-    }
-
-    public long getOwnerMobileNumber() {
-        return ownerMobileNumber;
-    }
-
-    public void setOwnerMobileNumber(long ownerMobileNumber) {
-        this.ownerMobileNumber = ownerMobileNumber;
+    public void setOtp(long otp) {
+        this.otp = otp;
     }
 
     public long getId() {
@@ -154,6 +120,14 @@ public class VehicleDetails implements Serializable {
 
     public void setOwnerName(String ownerName) {
         this.ownerName = ownerName;
+    }
+
+    public long getOwnerMobileNumber() {
+        return ownerMobileNumber;
+    }
+
+    public void setOwnerMobileNumber(long ownerMobileNumber) {
+        this.ownerMobileNumber = ownerMobileNumber;
     }
 
     public String getVehicleRcNumber() {
@@ -219,7 +193,6 @@ public class VehicleDetails implements Serializable {
     public void setInsuranceImage(String insuranceImage) {
         this.insuranceImage = insuranceImage;
     }
-
 
     public String getDriverName() {
         return driverName;
@@ -293,9 +266,17 @@ public class VehicleDetails implements Serializable {
         this.vehicleStatus = vehicleStatus;
     }
 
+    public String getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(String createdDate) {
+        this.createdDate = createdDate;
+    }
+
     @Override
     public String toString() {
-        return "VehicleDetails{" +
+        return "DeletedVehicleData{" +
                 "id=" + id +
                 ", vehicleType='" + vehicleType + '\'' +
                 ", vehicleNumber='" + vehicleNumber + '\'' +
@@ -319,7 +300,7 @@ public class VehicleDetails implements Serializable {
                 ", vehicleTransportNumber='" + vehicleTransportNumber + '\'' +
                 ", vehicleStatus=" + vehicleStatus +
                 ", createdDate='" + createdDate + '\'' +
-                ", modifedDate='" + modifedDate + '\'' +
+                ", otp='" + otp + '\'' +
                 '}';
     }
 }

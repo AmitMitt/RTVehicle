@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 @Repository
 public interface VehicleRepository extends JpaRepository<VehicleDetails, Long> {
 
-    @Query("Select v from VehicleDetails v where v.vehicleNumber = :vehicleNumber")
+    @Query("Select v from VehicleDetails v where v.vehicleNumber = :vehicleNumber and v.deleted = false")
     public VehicleDetails findByNumber(@PathVariable("vehicleNumber") String vehicleNumber);
 
 

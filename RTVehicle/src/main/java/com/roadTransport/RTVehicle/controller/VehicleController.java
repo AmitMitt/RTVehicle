@@ -1,6 +1,5 @@
 package com.roadTransport.RTVehicle.controller;
 
-import com.roadTransport.RTVehicle.entity.DeletedVehicleData;
 import com.roadTransport.RTVehicle.entity.VehicleDetails;
 import com.roadTransport.RTVehicle.model.OtpRequest;
 import com.roadTransport.RTVehicle.model.VehicleRequest;
@@ -27,10 +26,9 @@ public class VehicleController {
     @PostMapping("/add")
     public ResponseEntity<VehicleResponse> add(@RequestBody OtpRequest otpRequest) throws Exception {
 
-        VehicleDetails vehicleDetails = vehicleService.add(otpRequest);
+        vehicleService.add(otpRequest);
         VehicleResponse vehicleResponse = new VehicleResponse();
         vehicleResponse.setMessage("Vehicle Successfully Added.");
-        vehicleResponse.setOtp(otpRequest.getOtp());
         return ResponseEntity.ok(vehicleResponse);
     }
 
@@ -60,20 +58,9 @@ public class VehicleController {
         return ResponseEntity.ok(vehicleResponse);
     }
 
-
-    @DeleteMapping("/delete")
-    public ResponseEntity<VehicleResponse> delete(@RequestBody VehicleRequest vehicleRequest) throws Exception {
-
-        DeletedVehicleData deletedVehicleData = vehicleService.delete(vehicleRequest.getVehicleNumber());
-        VehicleResponse vehicleResponse = new VehicleResponse();
-        vehicleResponse.setMessage("Enter the Otp.");
-        vehicleResponse.setOtp(deletedVehicleData.getOtp());
-        return ResponseEntity.ok(vehicleResponse);
-    }
-
     @CacheEvict(value = "VehicleDetails", allEntries=true)
-    @PostMapping("/verifyDeletionOtp")
-    public ResponseEntity<VehicleResponse> verifyDeletion(@RequestBody OtpRequest otpRequest) throws Exception {
+    @PostMapping("/delete")
+    public ResponseEntity<VehicleResponse> delete(@RequestBody OtpRequest otpRequest) throws Exception {
 
         vehicleService.deleteByOtp(otpRequest);
         VehicleResponse vehicleResponse = new VehicleResponse();

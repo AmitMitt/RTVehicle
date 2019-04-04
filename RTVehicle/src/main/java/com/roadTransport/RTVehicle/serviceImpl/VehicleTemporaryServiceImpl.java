@@ -1,7 +1,7 @@
 package com.roadTransport.RTVehicle.serviceImpl;
 
 import com.roadTransport.RTVehicle.entity.VehicleDetails;
-import com.roadTransport.RTVehicle.entity.VehicleTemporayDetails;
+import com.roadTransport.RTVehicle.entity.VehicleTemporaryDetails;
 import com.roadTransport.RTVehicle.model.OtpDetails;
 import com.roadTransport.RTVehicle.model.VehicleRequest;
 import com.roadTransport.RTVehicle.otpService.OtpService;
@@ -13,10 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.text.SimpleDateFormat;
 import java.util.Base64;
 import java.util.Calendar;
+import java.util.TimeZone;
 
 @Service
 public class VehicleTemporaryServiceImpl implements VehicleTemporaryService {
@@ -35,9 +34,9 @@ public class VehicleTemporaryServiceImpl implements VehicleTemporaryService {
 
 
     @Override
-    public VehicleTemporayDetails add(VehicleRequest vehicleRequest) throws Exception {
+    public VehicleTemporaryDetails add(VehicleRequest vehicleRequest) throws Exception {
 
-        VehicleTemporayDetails vehicleDetails = vehicleTemporaryRepository.findByNumber(vehicleRequest.getVehicleNumber());
+        VehicleTemporaryDetails vehicleDetails = vehicleTemporaryRepository.findByNumber(vehicleRequest.getVehicleNumber());
 
         VehicleDetails vehicleDetails2 = vehicleRepository.findByNumber(vehicleRequest.getVehicleNumber());
 
@@ -47,7 +46,7 @@ public class VehicleTemporaryServiceImpl implements VehicleTemporaryService {
 
         if(vehicleDetails == null){
 
-            VehicleTemporayDetails vehicleDetails1 = new VehicleTemporayDetails();
+            VehicleTemporaryDetails vehicleDetails1 = new VehicleTemporaryDetails();
             vehicleDetails1.setDriverName(vehicleRequest.getDriverName());
             vehicleDetails1.setInsuranceImage(Base64.getEncoder().encodeToString(vehicleRequest.getInsuranceImage().getBytes()));
             vehicleDetails1.setOwnerName(vehicleRequest.getOwnerName());
@@ -69,7 +68,7 @@ public class VehicleTemporaryServiceImpl implements VehicleTemporaryService {
             vehicleDetails1.setVehicleTransportNumber(vehicleRequest.getVehicleTransportNumber());
             vehicleDetails1.setVehicleType(vehicleRequest.getVehicleType());
             vehicleDetails1.setOwnerMobileNumber(vehicleRequest.getOwnerMobileNumber());
-            vehicleDetails1.setCreatedDate(new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime()));
+            vehicleDetails1.setCreatedDate(Calendar.getInstance(TimeZone.getTimeZone("UTC")).getTimeInMillis());
 
             OtpDetails otpDetails = otpService.getOtp(vehicleRequest.getOwnerMobileNumber());
             vehicleDetails1.setOtp(otpDetails.getOtpNumber());
@@ -100,7 +99,7 @@ public class VehicleTemporaryServiceImpl implements VehicleTemporaryService {
             vehicleDetails.setVehicleTransportNumber(vehicleRequest.getVehicleTransportNumber());
             vehicleDetails.setVehicleType(vehicleRequest.getVehicleType());
             vehicleDetails.setOwnerMobileNumber(vehicleRequest.getOwnerMobileNumber());
-            vehicleDetails.setModiedDate(new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime()));
+            vehicleDetails.setModiedDate(Calendar.getInstance(TimeZone.getTimeZone("UTC")).getTimeInMillis());
 
             OtpDetails otpDetails = otpService.getOtp(vehicleRequest.getOwnerMobileNumber());
             vehicleDetails.setOtp(otpDetails.getOtpNumber());
@@ -111,15 +110,15 @@ public class VehicleTemporaryServiceImpl implements VehicleTemporaryService {
     }
 
     @Override
-    public VehicleTemporayDetails getListByNumber(String vehicleNumber) throws Exception {
+    public VehicleTemporaryDetails getListByNumber(String vehicleNumber) throws Exception {
 
-        VehicleTemporayDetails vehicleDetails = vehicleTemporaryRepository.findByNumber(vehicleNumber);
+        VehicleTemporaryDetails vehicleDetails = vehicleTemporaryRepository.findByNumber(vehicleNumber);
 
         return vehicleDetails;
     }
 
     @Override
-    public Page<VehicleTemporayDetails> listAllByPage(Pageable pageable) {
+    public Page<VehicleTemporaryDetails> listAllByPage(Pageable pageable) {
         return vehicleTemporaryPageRepository.findAll(pageable);
     }
 }

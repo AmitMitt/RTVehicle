@@ -1,7 +1,6 @@
 package com.roadTransport.RTVehicle.controller;
 
-
-import com.roadTransport.RTVehicle.entity.VehicleTemporayDetails;
+import com.roadTransport.RTVehicle.entity.VehicleTemporaryDetails;
 import com.roadTransport.RTVehicle.model.VehicleRequest;
 import com.roadTransport.RTVehicle.model.VehicleResponse;
 import com.roadTransport.RTVehicle.service.VehicleTemporaryService;
@@ -22,7 +21,7 @@ public class VehicleTemporaryController {
     @PostMapping("/add")
     public ResponseEntity<VehicleResponse> add(@RequestBody VehicleRequest vehicleRequest) throws Exception {
 
-        VehicleTemporayDetails vehicleTemporayDetails = vehicleTemporaryService.add(vehicleRequest);
+        VehicleTemporaryDetails vehicleTemporayDetails = vehicleTemporaryService.add(vehicleRequest);
         VehicleResponse vehicleResponse = new VehicleResponse();
         vehicleResponse.setMessage("please enter the otp for verification.");
         vehicleResponse.setOtp(vehicleTemporayDetails.getOtp());
@@ -31,17 +30,17 @@ public class VehicleTemporaryController {
 
     @Cacheable(value = "VehicleDetails", key = "#vehicleNumber")
     @GetMapping("/getData/{vehicleNumber}")
-    public ResponseEntity<VehicleTemporayDetails> getDataByNumber(@PathVariable("vehicleNumber") String vehicleNumber) throws Exception {
+    public ResponseEntity<VehicleTemporaryDetails> getDataByNumber(@PathVariable("vehicleNumber") String vehicleNumber) throws Exception {
 
-        VehicleTemporayDetails vehicleTemporayDetails = vehicleTemporaryService.getListByNumber(vehicleNumber);
+        VehicleTemporaryDetails vehicleTemporayDetails = vehicleTemporaryService.getListByNumber(vehicleNumber);
         return ResponseEntity.ok(vehicleTemporayDetails);
     }
 
     @Cacheable(value = "VehicleDetails", key = "#vehicleNumber")
     @GetMapping("/getlistByPage")
-    public Page<VehicleTemporayDetails> getList(Pageable pageable){
+    public Page<VehicleTemporaryDetails> getList(Pageable pageable){
 
-        Page<VehicleTemporayDetails> list = vehicleTemporaryService.listAllByPage(pageable);
+        Page<VehicleTemporaryDetails> list = vehicleTemporaryService.listAllByPage(pageable);
         return list;
     }
 

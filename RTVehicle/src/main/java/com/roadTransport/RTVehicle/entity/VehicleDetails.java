@@ -1,5 +1,8 @@
 package com.roadTransport.RTVehicle.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -7,6 +10,9 @@ import java.io.Serializable;
 
 @Table
 @Entity
+@JsonIgnoreProperties(ignoreUnknown = true)
+@SQLDelete(sql = "update VehicleDetails set deleted=true where id=?")
+@Where(clause = "deleted=false")
 public class VehicleDetails implements Serializable {
 
     @Id
@@ -95,24 +101,35 @@ public class VehicleDetails implements Serializable {
     private boolean vehicleStatus;
 
     @Column
-    private String createdDate;
+    private long createdDate;
 
     @Column
-    private String modifedDate;
+    private long modifedDate;
 
-    public String getCreatedDate() {
+    @Column
+    private boolean deleted;
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
+
+    public long getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(String createdDate) {
+    public void setCreatedDate(long createdDate) {
         this.createdDate = createdDate;
     }
 
-    public String getModifedDate() {
+    public long getModifedDate() {
         return modifedDate;
     }
 
-    public void setModifedDate(String modifedDate) {
+    public void setModifedDate(long modifedDate) {
         this.modifedDate = modifedDate;
     }
 
@@ -320,6 +337,7 @@ public class VehicleDetails implements Serializable {
                 ", vehicleStatus=" + vehicleStatus +
                 ", createdDate='" + createdDate + '\'' +
                 ", modifedDate='" + modifedDate + '\'' +
+                ", deleted=" + deleted +
                 '}';
     }
 }

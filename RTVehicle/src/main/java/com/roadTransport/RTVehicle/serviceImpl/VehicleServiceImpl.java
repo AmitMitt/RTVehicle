@@ -1,25 +1,21 @@
 package com.roadTransport.RTVehicle.serviceImpl;
 
-import com.roadTransport.RTVehicle.entity.DeletedVehicleData;
 import com.roadTransport.RTVehicle.entity.VehicleDetails;
-import com.roadTransport.RTVehicle.entity.VehicleTemporayDetails;
-import com.roadTransport.RTVehicle.model.OtpDetails;
+import com.roadTransport.RTVehicle.entity.VehicleTemporaryDetails;
 import com.roadTransport.RTVehicle.model.OtpRequest;
 import com.roadTransport.RTVehicle.model.VehicleRequest;
 import com.roadTransport.RTVehicle.otpService.OtpService;
 import com.roadTransport.RTVehicle.repository.VehiclePageRepository;
 import com.roadTransport.RTVehicle.repository.VehicleRepository;
 import com.roadTransport.RTVehicle.repository.VehicleTemporaryRepository;
-import com.roadTransport.RTVehicle.repository.deletedRepository.DeletedVehicleRepository;
 import com.roadTransport.RTVehicle.service.VehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.text.SimpleDateFormat;
 import java.util.Base64;
 import java.util.Calendar;
+import java.util.TimeZone;
 
 @Service
 public class VehicleServiceImpl implements VehicleService {
@@ -36,13 +32,10 @@ public class VehicleServiceImpl implements VehicleService {
     @Autowired
     private VehiclePageRepository vehiclePageRepository;
 
-    @Autowired
-    private DeletedVehicleRepository deletedVehicleRepository;
-
     @Override
     public VehicleDetails add(OtpRequest otpRequest) throws Exception {
 
-        VehicleTemporayDetails vehicleTemporayDetails = vehicleTemporaryRepository.findByNumber(otpRequest.getVehicleNumber());
+        VehicleTemporaryDetails vehicleTemporayDetails = vehicleTemporaryRepository.findByNumber(otpRequest.getVehicleNumber());
 
         if(vehicleTemporayDetails == null){
             throw new Exception("User Data is not Available.");
@@ -78,9 +71,10 @@ public class VehicleServiceImpl implements VehicleService {
             vehicleDetails.setVehicleTransportNumber(vehicleTemporayDetails.getVehicleTransportNumber());
             vehicleDetails.setVehicleType(vehicleTemporayDetails.getVehicleType());
             vehicleDetails.setOwnerMobileNumber(vehicleTemporayDetails.getOwnerMobileNumber());
-            vehicleDetails.setCreatedDate(new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime()));
+            vehicleDetails.setCreatedDate(Calendar.getInstance(TimeZone.getTimeZone("UTC")).getTimeInMillis());
 
             vehicleRepository.saveAndFlush(vehicleDetails);
+            vehicleTemporaryRepository.delete(vehicleTemporayDetails);
             return vehicleDetails;
         }
     }
@@ -98,44 +92,6 @@ public class VehicleServiceImpl implements VehicleService {
     }
 
     @Override
-    public DeletedVehicleData delete(String vehicleNumber) throws Exception {
-
-        VehicleDetails vehicleDetails = vehicleRepository.findByNumber(vehicleNumber);
-        DeletedVehicleData deletedVehicleData = deletedVehicleRepository.findByNumber(vehicleNumber);
-
-        deletedVehicleData.setCreatedDate(new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime()));
-        deletedVehicleData.setDriverName(vehicleDetails.getDriverName());
-        deletedVehicleData.setInsuranceImage(vehicleDetails.getInsuranceImage());
-        deletedVehicleData.setOwnerMobileNumber(vehicleDetails.getOwnerMobileNumber());
-        deletedVehicleData.setOwnerName(vehicleDetails.getOwnerName());
-        deletedVehicleData.setRcImage(vehicleDetails.getRcImage());
-        deletedVehicleData.setVehicleCompanyName(vehicleDetails.getVehicleCompanyName());
-        deletedVehicleData.setVehicleFuelType(vehicleDetails.getVehicleFuelType());
-        deletedVehicleData.setVehicleImage(vehicleDetails.getVehicleImage());
-        deletedVehicleData.setVehicleInsuranceNumber(vehicleDetails.getVehicleInsuranceNumber());
-        deletedVehicleData.setVehicleLoadCapacity(vehicleDetails.getVehicleLoadCapacity());
-        deletedVehicleData.setVehicleModel(vehicleDetails.getVehicleModel());
-        deletedVehicleData.setVehicleName(vehicleDetails.getVehicleName());
-        deletedVehicleData.setVehicleNumber(vehicleDetails.getVehicleNumber());
-        deletedVehicleData.setVehicleRcNumber(vehicleDetails.getVehicleRcNumber());
-        deletedVehicleData.setVehicleSeatingCapacity(vehicleDetails.getVehicleSeatingCapacity());
-        deletedVehicleData.setVehicleSize(vehicleDetails.getVehicleSize());
-        deletedVehicleData.setVehicleStatus(false);
-        deletedVehicleData.setVehicleTotalTyres(vehicleDetails.getVehicleTotalTyres());
-        deletedVehicleData.setVehicleTransportName(vehicleDetails.getVehicleTransportName());
-        deletedVehicleData.setVehicleTransportNumber(vehicleDetails.getVehicleTransportNumber());
-        deletedVehicleData.setVehicleType(vehicleDetails.getVehicleType());
-        OtpDetails otpDetails = otpService.getOtp(vehicleDetails.getOwnerMobileNumber());
-        deletedVehicleData.setOtp(otpDetails.getOtpNumber());
-
-        deletedVehicleRepository.saveAndFlush(deletedVehicleData);
-
-        return deletedVehicleData;
-    }
-
-
-
-    @Override
     public Page<VehicleDetails> listAllByPage(Pageable pageable) {
         return vehiclePageRepository.findAll(pageable);
     }
@@ -147,23 +103,14 @@ public class VehicleServiceImpl implements VehicleService {
 
         vehicleDetails.setDriverName(vehicleRequest.getDriverName());
         vehicleDetails.setOwnerName(vehicleRequest.getOwnerName());
-        vehicleDetails.setVehicleCompanyName(vehicleRequest.getVehicleCompanyName());
-        vehicleDetails.setVehicleFuelType(vehicleRequest.getVehicleFuelType());
         vehicleDetails.setVehicleInsuranceNumber(vehicleRequest.getVehicleInsuranceNumber());
         vehicleDetails.setVehicleLoadCapacity(vehicleRequest.getVehicleLoadCapacity());
-        vehicleDetails.setVehicleModel(vehicleRequest.getVehicleModel());
-        vehicleDetails.setVehicleName(vehicleRequest.getVehicleName());
-        vehicleDetails.setVehicleNumber(vehicleRequest.getVehicleNumber());
         vehicleDetails.setVehicleRcNumber(vehicleRequest.getVehicleRcNumber());
-        vehicleDetails.setVehicleSeatingCapacity(vehicleRequest.getVehicleSeatingCapacity());
-        vehicleDetails.setVehicleSize(vehicleRequest.getVehicleSize());
         vehicleDetails.setVehicleStatus(false);
-        vehicleDetails.setVehicleTotalTyres(vehicleRequest.getVehicleTotalTyres());
         vehicleDetails.setVehicleTransportName(vehicleRequest.getVehicleTransportName());
         vehicleDetails.setVehicleTransportNumber(vehicleRequest.getVehicleTransportNumber());
-        vehicleDetails.setVehicleType(vehicleRequest.getVehicleType());
         vehicleDetails.setOwnerMobileNumber(vehicleRequest.getOwnerMobileNumber());
-        vehicleDetails.setModifedDate(new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime()));
+        vehicleDetails.setModifedDate(Calendar.getInstance(TimeZone.getTimeZone("UTC")).getTimeInMillis());
 
         vehicleRepository.saveAndFlush(vehicleDetails);
         return vehicleDetails;
@@ -174,7 +121,7 @@ public class VehicleServiceImpl implements VehicleService {
 
         VehicleDetails vehicleDetails = vehicleRepository.findByNumber(vehicleRequest.getVehicleNumber());
         vehicleDetails.setRcImage(Base64.getEncoder().encodeToString(vehicleRequest.getRcImage().getBytes()));
-        vehicleDetails.setModifedDate(new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime()));
+        vehicleDetails.setModifedDate(Calendar.getInstance(TimeZone.getTimeZone("UTC")).getTimeInMillis());
         vehicleRepository.saveAndFlush(vehicleDetails);
         return vehicleDetails;
     }
@@ -184,7 +131,7 @@ public class VehicleServiceImpl implements VehicleService {
 
         VehicleDetails vehicleDetails = vehicleRepository.findByNumber(vehicleRequest.getVehicleNumber());
         vehicleDetails.setInsuranceImage(Base64.getEncoder().encodeToString(vehicleRequest.getInsuranceImage().getBytes()));
-        vehicleDetails.setModifedDate(new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime()));
+        vehicleDetails.setModifedDate(Calendar.getInstance(TimeZone.getTimeZone("UTC")).getTimeInMillis());
         vehicleRepository.saveAndFlush(vehicleDetails);
         return vehicleDetails;
     }
@@ -209,8 +156,8 @@ public class VehicleServiceImpl implements VehicleService {
 
             throw new Exception("Otp is Expired.");
         }
-
-        vehicleRepository.delete(vehicleDetails);
+        vehicleDetails.setDeleted(true);
+        vehicleRepository.saveAndFlush(vehicleDetails);
         return null;
     }
 }

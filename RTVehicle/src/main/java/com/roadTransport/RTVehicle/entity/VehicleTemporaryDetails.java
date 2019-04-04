@@ -1,12 +1,11 @@
 package com.roadTransport.RTVehicle.entity;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
-public class VehicleTemporayDetails {
+@Table
+@Entity
+public class VehicleTemporaryDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -96,24 +95,24 @@ public class VehicleTemporayDetails {
     private long otp;
 
     @Column
-    private String createdDate;
+    private long createdDate;
 
     @Column
-    private String modiedDate;
+    private long modiedDate;
 
-    public String getCreatedDate() {
+    public long getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(String createdDate) {
+    public void setCreatedDate(long createdDate) {
         this.createdDate = createdDate;
     }
 
-    public String getModiedDate() {
+    public long getModiedDate() {
         return modiedDate;
     }
 
-    public void setModiedDate(String modiedDate) {
+    public void setModiedDate(long modiedDate) {
         this.modiedDate = modiedDate;
     }
 

@@ -1,7 +1,9 @@
 package com.roadTransport.RTVehicle.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Table
 @Entity
@@ -25,8 +27,9 @@ public class VehicleTemporaryDetails {
     private String ownerName;
 
     @NotNull
-    @Column(length = 10)
-    private long ownerMobileNumber;
+    @Column
+    @Size(min = 10, max = 10)
+    private String ownerMobileNumber;
 
     @NotNull
     @Column
@@ -48,15 +51,19 @@ public class VehicleTemporaryDetails {
     @Column
     private String vehicleCompanyName;
 
+    @NotNull
     @Column(columnDefinition="TEXT")
     private String vehicleImage;
 
+    @NotNull
     @Column(columnDefinition="TEXT")
     private String rcImage;
 
+    @NotNull
     @Column(columnDefinition="TEXT")
     private String insuranceImage;
 
+    @NotNull
     @Column
     private String driverName;
 
@@ -156,11 +163,11 @@ public class VehicleTemporaryDetails {
         this.ownerName = ownerName;
     }
 
-    public long getOwnerMobileNumber() {
+    public String getOwnerMobileNumber() {
         return ownerMobileNumber;
     }
 
-    public void setOwnerMobileNumber(long ownerMobileNumber) {
+    public void setOwnerMobileNumber(String ownerMobileNumber) {
         this.ownerMobileNumber = ownerMobileNumber;
     }
 

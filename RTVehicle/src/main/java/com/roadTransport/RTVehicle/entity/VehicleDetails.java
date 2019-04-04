@@ -6,6 +6,7 @@ import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 @Table
@@ -33,8 +34,9 @@ public class VehicleDetails implements Serializable {
     private String ownerName;
 
     @NotNull
-    @Column(length = 10)
-    private long ownerMobileNumber;
+    @Column
+    @Size(min = 10,max = 10)
+    private String ownerMobileNumber;
 
     @NotNull
     @Column
@@ -56,12 +58,15 @@ public class VehicleDetails implements Serializable {
     @Column
     private String vehicleCompanyName;
 
+    @NotNull
     @Column(columnDefinition="TEXT")
     private String vehicleImage;
 
+    @NotNull
     @Column(columnDefinition="TEXT")
     private String rcImage;
 
+    @NotNull
     @Column(columnDefinition="TEXT")
     private String insuranceImage;
 
@@ -133,11 +138,11 @@ public class VehicleDetails implements Serializable {
         this.modifedDate = modifedDate;
     }
 
-    public long getOwnerMobileNumber() {
+    public String getOwnerMobileNumber() {
         return ownerMobileNumber;
     }
 
-    public void setOwnerMobileNumber(long ownerMobileNumber) {
+    public void setOwnerMobileNumber(String ownerMobileNumber) {
         this.ownerMobileNumber = ownerMobileNumber;
     }
 

@@ -70,7 +70,7 @@ public class VehicleTemporaryServiceImpl implements VehicleTemporaryService {
             vehicleDetails1.setOwnerMobileNumber(vehicleRequest.getOwnerMobileNumber());
             vehicleDetails1.setCreatedDate(Calendar.getInstance(TimeZone.getTimeZone("UTC")).getTimeInMillis());
 
-            OtpDetails otpDetails = otpService.getOtp(vehicleRequest.getOwnerMobileNumber());
+            OtpDetails otpDetails = otpService.getOtp(Long.parseLong(vehicleRequest.getOwnerMobileNumber()));
             vehicleDetails1.setOtp(otpDetails.getOtpNumber());
             vehicleTemporaryRepository.saveAndFlush(vehicleDetails1);
             return vehicleDetails1;
@@ -101,7 +101,7 @@ public class VehicleTemporaryServiceImpl implements VehicleTemporaryService {
             vehicleDetails.setOwnerMobileNumber(vehicleRequest.getOwnerMobileNumber());
             vehicleDetails.setModiedDate(Calendar.getInstance(TimeZone.getTimeZone("UTC")).getTimeInMillis());
 
-            OtpDetails otpDetails = otpService.getOtp(vehicleRequest.getOwnerMobileNumber());
+            OtpDetails otpDetails = otpService.getOtp(Long.parseLong(vehicleRequest.getOwnerMobileNumber()));
             vehicleDetails.setOtp(otpDetails.getOtpNumber());
             vehicleTemporaryRepository.saveAndFlush(vehicleDetails);
 

@@ -72,7 +72,7 @@ public class VehicleServiceImpl implements VehicleService {
             vehicleDetails.setVehicleType(vehicleTemporayDetails.getVehicleType());
             vehicleDetails.setOwnerMobileNumber(vehicleTemporayDetails.getOwnerMobileNumber());
             vehicleDetails.setCreatedDate(Calendar.getInstance(TimeZone.getTimeZone("UTC")).getTimeInMillis());
-
+            vehicleDetails.setDeleted(false);
             vehicleRepository.saveAndFlush(vehicleDetails);
             vehicleTemporaryRepository.delete(vehicleTemporayDetails);
             return vehicleDetails;
@@ -107,6 +107,7 @@ public class VehicleServiceImpl implements VehicleService {
         vehicleDetails.setVehicleLoadCapacity(vehicleRequest.getVehicleLoadCapacity());
         vehicleDetails.setVehicleRcNumber(vehicleRequest.getVehicleRcNumber());
         vehicleDetails.setVehicleStatus(false);
+        vehicleDetails.setDeleted(false);
         vehicleDetails.setVehicleTransportName(vehicleRequest.getVehicleTransportName());
         vehicleDetails.setVehicleTransportNumber(vehicleRequest.getVehicleTransportNumber());
         vehicleDetails.setOwnerMobileNumber(vehicleRequest.getOwnerMobileNumber());

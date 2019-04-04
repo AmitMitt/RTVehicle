@@ -5,7 +5,7 @@ public class VehicleRequest {
     private String vehicleType;
     private String vehicleNumber;
     private String ownerName;
-    private long ownerMobileNumber;
+    private String ownerMobileNumber;
     private String vehicleRcNumber;
     private String vehicleInsuranceNumber;
     private String vehicleTotalTyres;
@@ -28,11 +28,11 @@ public class VehicleRequest {
     private String vehicleTransportNumber;
     private boolean vehicleStatus;
 
-    public long getOwnerMobileNumber() {
+    public String getOwnerMobileNumber() {
         return ownerMobileNumber;
     }
 
-    public void setOwnerMobileNumber(long ownerMobileNumber) {
+    public void setOwnerMobileNumber(String ownerMobileNumber) {
         this.ownerMobileNumber = ownerMobileNumber;
     }
 

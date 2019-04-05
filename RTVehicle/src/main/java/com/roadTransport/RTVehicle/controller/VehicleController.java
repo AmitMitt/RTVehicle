@@ -59,7 +59,7 @@ public class VehicleController {
     }
 
     @CacheEvict(value = "VehicleDetails", allEntries=true)
-    @PostMapping("/delete")
+    @DeleteMapping("/delete")
     public ResponseEntity<VehicleResponse> delete(@RequestBody OtpRequest otpRequest) throws Exception {
 
         vehicleService.deleteByOtp(otpRequest);
